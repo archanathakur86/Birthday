@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Divya's Birthday Mission"
+description = "A cinematic, scene-by-scene animated birthday experience for Divya. It opens as a hacker terminal scanning 8 billion humans to find her, launches a NASA rocket mission into space, travels through a star field and portal into a magical birthday universe, shows an interactive photo galaxy, a hidden hearts minigame, an exploding gift box, a cake ceremony, and ends with a secret 'OPEN ME' reveal. Purely frontend, no backend needed."
+version = "1.0.0"
+id = "artifacts/divya-birthday"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25945
+
+[services.development]
+run = "pnpm --filter @workspace/divya-birthday run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/divya-birthday", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/divya-birthday/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25945"
+BASE_PATH = "/"
