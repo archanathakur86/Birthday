@@ -14,6 +14,7 @@ import { Scene6Hearts } from './scenes/Scene6Hearts';
 import { Scene7Gift } from './scenes/Scene7Gift';
 import { Scene8Finale } from './scenes/Scene8Finale';
 import { SceneSecret } from './scenes/SceneSecret';
+import { Scene10Letter } from './scenes/Scene10Letter';
 
 function App() {
   const [started, setStarted] = useState(false);
@@ -50,9 +51,9 @@ function App() {
         </button>
       )}
 
-      {started && scene >= 1 && scene <= 8 && (
+      {started && scene >= 1 && scene <= 10 && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[9999] flex gap-2">
-          {Array.from({ length: 8 }).map((_, i) => (
+          {Array.from({ length: 10 }).map((_, i) => (
             <div 
               key={i} 
               className={`w-2 h-2 rounded-full transition-all duration-500 ${
@@ -95,7 +96,8 @@ function App() {
         {scene === 6 && <Scene6Hearts key="s6" onComplete={nextScene} playSound={playSound} />}
         {scene === 7 && <Scene7Gift key="s7" onComplete={nextScene} playSound={playSound} />}
         {scene === 8 && <Scene8Finale key="s8" onComplete={nextScene} onRestart={restart} />}
-        {scene === 9 && <SceneSecret key="s9" playSound={playSound} onRestart={restart} />}
+        {scene === 9 && <SceneSecret key="s9" playSound={playSound} onContinue={nextScene} />}
+        {scene === 10 && <Scene10Letter key="s10" onRestart={restart} />}
       </AnimatePresence>
     </div>
   );

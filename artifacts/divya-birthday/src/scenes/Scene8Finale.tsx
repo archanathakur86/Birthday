@@ -1,10 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Confetti } from '../components/Confetti';
 import { StarField } from '../components/StarField';
 
 export function Scene8Finale({ onComplete, onRestart }: { onComplete: () => void, onRestart: () => void }) {
   const [step, setStep] = useState(0);
+  const finaleNotes = useMemo(() => [
+    { text: 'Keep glowing', x: '12%', y: '18%', delay: 0.2, rotate: -7 },
+    { text: 'You light up rooms', x: '76%', y: '22%', delay: 0.8, rotate: 6 },
+    { text: 'Soft joy, loud laughter', x: '14%', y: '72%', delay: 1.2, rotate: -5 },
+    { text: 'Today belongs to your smile', x: '70%', y: '72%', delay: 1.6, rotate: 5 },
+  ], []);
 
   useEffect(() => {
     const sequence = [
@@ -12,7 +18,7 @@ export function Scene8Finale({ onComplete, onRestart }: { onComplete: () => void
       { delay: 3000, step: 2 }, // happy birthday types
       { delay: 6000, step: 3 }, // Divya appears
       { delay: 9000, step: 4 }, // Photos arrange
-      { delay: 12000, step: 5 }, // Final message & Buttons
+      { delay: 10000, step: 5 }, // Final message & Buttons
     ];
 
     const timeouts = sequence.map(s => setTimeout(() => setStep(s.step), s.delay));
@@ -38,7 +44,7 @@ export function Scene8Finale({ onComplete, onRestart }: { onComplete: () => void
 
       {/* Cake Container */}
       <motion.div 
-        className="relative z-20 mb-8"
+        className="relative z-20 mb-4 md:mb-6"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1 }}
@@ -71,6 +77,31 @@ export function Scene8Finale({ onComplete, onRestart }: { onComplete: () => void
         </svg>
       </motion.div>
 
+      {step >= 5 && finaleNotes.map((note, i) => (
+        <motion.div
+          key={note.text}
+          className="absolute z-30 max-w-[190px] rounded-full border border-white/20 bg-white/10 px-4 py-2 text-white/90 shadow-lg backdrop-blur-md"
+          style={{ left: note.x, top: note.y }}
+          initial={{ opacity: 0, scale: 0.7, rotate: note.rotate }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            rotate: [note.rotate, note.rotate + 4, note.rotate - 4, note.rotate],
+            y: [0, -6, 0],
+          }}
+          transition={{
+            opacity: { duration: 0.8, delay: note.delay },
+            scale: { type: 'spring', stiffness: 170, damping: 15, delay: note.delay },
+            rotate: { duration: 6 + i, repeat: Infinity, ease: 'easeInOut' },
+            y: { duration: 4.5 + i, repeat: Infinity, ease: 'easeInOut' },
+          }}
+        >
+          <div className="text-xs md:text-sm font-script leading-tight text-center">
+            {note.text}
+          </div>
+        </motion.div>
+      ))}
+
       {/* Text Container */}
       <div className="z-20 text-center flex flex-col items-center">
         {step >= 2 && (
@@ -98,25 +129,10 @@ export function Scene8Finale({ onComplete, onRestart }: { onComplete: () => void
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 2 }}
-            className="mt-8 flex flex-col items-center"
+            className="mt-4 md:mt-5 flex flex-col items-center"
           >
-            <div className="text-xl md:text-2xl text-pink-200/80 font-sans max-w-xl px-4 text-center mb-8">
+            <div className="text-xl md:text-2xl text-pink-200/80 font-sans max-w-xl px-4 text-center mb-4 leading-tight">
               May your smile always shine brighter<br/>than every star in this universe. 🎆
-            </div>
-            
-            <div className="flex gap-4">
-              <button 
-                onClick={onRestart}
-                className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/30 rounded-full text-white backdrop-blur-md transition-all flex items-center gap-2"
-              >
-                <span>🔄</span> Replay Mission
-              </button>
-              <button 
-                onClick={onRestart}
-                className="px-6 py-3 bg-pink-500/20 hover:bg-pink-500/40 border border-pink-500/50 rounded-full text-white backdrop-blur-md transition-all flex items-center gap-2"
-              >
-                <span>🚀</span> Launch Again
-              </button>
             </div>
           </motion.div>
         )}

@@ -63,8 +63,8 @@ export function Scene5Photos({ onComplete, playSound }: { onComplete: () => void
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,105,180,0.1)_0%,transparent_100%)] pointer-events-none" />
 
-      <div className="absolute top-8 w-full text-center text-white/50 text-lg md:text-xl font-sans tracking-wide">
-        Click any memory to relive it ✨
+      <div className="absolute top-8 w-full px-4 text-center text-white/70 text-2xl md:text-4xl font-script tracking-normal drop-shadow-[0_0_12px_rgba(255,255,255,0.18)]">
+        A little glimpse that always brings a smile ✨
       </div>
 
       <div className="relative w-full h-full">
@@ -82,7 +82,7 @@ export function Scene5Photos({ onComplete, playSound }: { onComplete: () => void
                 left: photo.x,
                 top: photo.y,
                 width: 160,
-                height: 190,
+                height: 230,
                 transform: `rotate(${photo.rotate}deg)`,
                 zIndex: 10,
               }}
@@ -90,12 +90,12 @@ export function Scene5Photos({ onComplete, playSound }: { onComplete: () => void
               <div className="w-full h-full flex items-center justify-center rounded-sm overflow-hidden">
                 <img 
                   src={photo.image} 
-                  alt={`Memory ${i + 1}`} 
+                  alt={`Little glimpse ${i + 1}`} 
                   className="w-full h-full object-contain"
                   style={{ display: 'block' }}
                 />
               </div>
-              <div className="text-center text-white/60 text-xs mt-1 font-script">Memory {i + 1}</div>
+              <div className="text-center text-white/60 text-xs mt-1 font-script">Little glimpse {i + 1}</div>
             </motion.div>
           );
         })}
@@ -112,7 +112,6 @@ export function Scene5Photos({ onComplete, playSound }: { onComplete: () => void
             style={{ pointerEvents: 'auto' }}
           >
             <motion.div
-              onClick={(e) => e.stopPropagation()}
               className="rounded-lg shadow-2xl"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -121,7 +120,7 @@ export function Scene5Photos({ onComplete, playSound }: { onComplete: () => void
             >
               <img
                 src={photos[activeId]?.image}
-                alt={`Memory ${activeId + 1}`}
+                alt={`Little glimpse ${activeId + 1}`}
                 style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }}
               />
             </motion.div>

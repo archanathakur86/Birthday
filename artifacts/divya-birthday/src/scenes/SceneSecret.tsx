@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 
-export function SceneSecret({ playSound, onRestart }: { playSound: (s: any) => void, onRestart: () => void }) {
+export function SceneSecret({ playSound, onContinue }: { playSound: (s: any) => void, onContinue: () => void }) {
   const [step, setStep] = useState(0);
 
   const text1 = "> Closing Mission...\nERROR: Unexpected File Remaining...";
@@ -96,25 +96,31 @@ export function SceneSecret({ playSound, onRestart }: { playSound: (s: any) => v
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 2, delay: 4 }}
-            className="mt-12 text-center text-xl md:text-3xl font-sans text-white/90 leading-relaxed max-w-2xl z-10 px-4"
+            transition={{ duration: 1.8, delay: 2.8 }}
+            className="mt-6 md:mt-8 text-center text-xl md:text-3xl font-sans text-white/90 leading-tight max-w-2xl z-10 px-4 flex flex-col items-center gap-2 md:gap-3"
           >
-            Among billions of people searched...
-            <br/><br/>
-            <span className="font-script text-3xl md:text-5xl text-pink-200">only one was worth launching this mission for.</span>
-            <br/><br/>
-            <span className="text-2xl md:text-4xl font-bold tracking-widest uppercase">Happy Birthday. ❤️</span>
+            <div>Among billions of possibilities...</div>
+            <div className="font-script text-3xl md:text-5xl text-pink-200 leading-tight">
+              only YOU was worth the search.
+            </div>
+            <div className="text-2xl md:text-4xl font-bold tracking-widest uppercase leading-tight">
+              Happy Birthday. ❤️
+            </div>
           </motion.div>
 
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 10 }}
-            onClick={onRestart}
-            className="absolute bottom-8 z-50 text-white/50 hover:text-white border border-white/20 px-6 py-2 rounded-full backdrop-blur-sm transition-all text-sm uppercase tracking-wider"
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 3.1, duration: 1.1 }}
+            className="absolute bottom-24 z-50"
           >
-            Restart Mission
-          </motion.button>
+            <button
+              onClick={onContinue}
+              className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-white backdrop-blur-md transition-all hover:bg-white/20"
+            >
+              Read the letter
+            </button>
+          </motion.div>
 
         </motion.div>
       )}

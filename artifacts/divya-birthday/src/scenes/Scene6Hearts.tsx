@@ -1,8 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Scene6Hearts({ onComplete, playSound }: { onComplete: () => void, playSound: (s: any) => void }) {
   const [found, setFound] = useState<number[]>([]);
+  const [revealedWishes, setRevealedWishes] = useState<number[]>([]);
+  const [phase, setPhase] = useState<'hunt' | 'wish'>('hunt');
   const totalHearts = 5;
 
   const hearts = useMemo(() => {
@@ -15,6 +17,12 @@ export function Scene6Hearts({ onComplete, playSound }: { onComplete: () => void
     }));
   }, []);
 
+  const wishes = useMemo(() => ([
+    { id: 0, text: 'For endless reasons to smile', x: '18%', y: '36%' },
+    { id: 1, text: 'For soft days and loud laughter', x: '52%', y: '22%' },
+    { id: 2, text: 'For every dream that finds her', x: '68%', y: '58%' },
+  ]), []);
+
   const handleFind = (id: number) => {
     if (!found.includes(id)) {
       setFound([...found, id]);
@@ -22,9 +30,24 @@ export function Scene6Hearts({ onComplete, playSound }: { onComplete: () => void
     }
   };
 
-  if (found.length === totalHearts) {
-    setTimeout(onComplete, 3000);
-  }
+  useEffect(() => {
+    if (found.length === totalHearts && phase === 'hunt') {
+      setPhase('wish');
+      setRevealedWishes([]);
+    }
+  }, [found.length, phase]);
+
+  useEffect(() => {
+    if (phase !== 'wish' || revealedWishes.length !== wishes.length) return;
+    const t = setTimeout(onComplete, 2500);
+    return () => clearTimeout(t);
+  }, [phase, revealedWishes.length, wishes.length, onComplete]);
+
+  const handleWish = (id: number) => {
+    if (revealedWishes.includes(id)) return;
+    setRevealedWishes(prev => [...prev, id]);
+    playSound('sparkle');
+  };
 
   return (
     <motion.div 
@@ -36,18 +59,19 @@ export function Scene6Hearts({ onComplete, playSound }: { onComplete: () => void
       <div className="absolute top-8 left-0 right-0 flex justify-center z-10 pointer-events-none">
         <div className="bg-black/50 border border-pink-500/30 px-6 py-3 rounded-full backdrop-blur-md">
           <div className="text-white text-xl md:text-2xl font-sans">
-            {found.length < totalHearts ? "Click all the Hearts 💕" : "Gift Unlocked! 🎁"}
+            {phase === 'hunt' ? 'Click all the Hearts 💕' : 'Make three little wishes ✨'}
           </div>
           <div className="text-pink-400 text-center font-bold mt-1 text-lg">
-            ❤️ {found.length} / {totalHearts}
+            {phase === 'hunt' ? `❤️ ${found.length} / ${totalHearts}` : `✨ ${revealedWishes.length} / ${wishes.length}`}
           </div>
         </div>
       </div>
 
-      {hearts.map(heart => (
-        <AnimatePresence key={heart.id}>
-          {!found.includes(heart.id) && (
+      <AnimatePresence>
+        {phase === 'hunt' && hearts.map(heart => (
+          !found.includes(heart.id) && (
             <motion.div
+              key={heart.id}
               onClick={() => handleFind(heart.id)}
               className="absolute cursor-pointer text-pink-500 text-glow-pink"
               style={{
@@ -69,31 +93,59 @@ export function Scene6Hearts({ onComplete, playSound }: { onComplete: () => void
             >
               ❤️
             </motion.div>
-          )}
-        </AnimatePresence>
-      ))}
+          )
+        ))}
+      </AnimatePresence>
 
-      {found.length === totalHearts && (
+      {phase === 'wish' && (
         <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="absolute inset-0 flex items-center justify-center"
         >
-          <div className="text-6xl md:text-8xl">🎁</div>
-          {Array.from({ length: 30 }).map((_, i) => (
-             <motion.div
-               key={i}
-               className="absolute w-4 h-4 bg-pink-500 rounded-full"
-               initial={{ x: 0, y: 0, scale: 1 }}
-               animate={{ 
-                 x: (Math.random() - 0.5) * 500, 
-                 y: (Math.random() - 0.5) * 500,
-                 scale: 0,
-                 opacity: 0
-               }}
-               transition={{ duration: 1, ease: "easeOut" }}
-             />
-          ))}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,105,180,0.18)_0%,transparent_70%)] pointer-events-none" />
+          <div className="relative z-10 w-full h-full">
+            <motion.div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+            >
+              ✨
+            </motion.div>
+
+            {wishes.map((wish, index) => {
+              const revealed = revealedWishes.includes(wish.id);
+              return (
+                <motion.button
+                  key={wish.id}
+                  type="button"
+                  onClick={() => handleWish(wish.id)}
+                  className="absolute max-w-[220px] rounded-2xl border border-white/15 bg-black/35 px-4 py-3 text-left shadow-xl backdrop-blur-md"
+                  style={{ left: wish.x, top: wish.y }}
+                  initial={{ opacity: 0, scale: 0.7, rotate: index % 2 === 0 ? -6 : 6 }}
+                  animate={{
+                    opacity: 1,
+                    scale: revealed ? 1.06 : 1,
+                    rotate: [index % 2 === 0 ? -6 : 6, index % 2 === 0 ? -3 : 3, index % 2 === 0 ? -6 : 6],
+                    y: [0, -8, 0],
+                  }}
+                  transition={{
+                    opacity: { duration: 0.6, delay: 0.2 + index * 0.2 },
+                    scale: { type: 'spring', stiffness: 180, damping: 16 },
+                    rotate: { duration: 4 + index, repeat: Infinity, ease: 'easeInOut' },
+                    y: { duration: 3.5 + index, repeat: Infinity, ease: 'easeInOut' },
+                  }}
+                >
+                  <div className="text-[11px] uppercase tracking-[0.2em] text-pink-200/70 mb-1 font-sans">
+                    Wish {index + 1}
+                  </div>
+                  <div className={`text-sm md:text-base leading-tight ${revealed ? 'text-white' : 'text-white/70'} font-script`}>
+                    {revealed ? wish.text : 'Tap to reveal a wish'}
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
         </motion.div>
       )}
 
