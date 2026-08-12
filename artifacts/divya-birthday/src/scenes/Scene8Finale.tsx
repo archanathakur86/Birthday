@@ -80,7 +80,7 @@ export function Scene8Finale({ onComplete, onRestart }: { onComplete: () => void
       {step >= 5 && finaleNotes.map((note, i) => (
         <motion.div
           key={note.text}
-          className="absolute z-30 max-w-[190px] rounded-full border border-white/20 bg-white/10 px-4 py-2 text-white/90 shadow-lg backdrop-blur-md"
+          className={`absolute z-30 max-w-[140px] sm:max-w-[190px] rounded-full border border-white/20 bg-white/10 px-3 sm:px-4 py-2 text-white/90 shadow-lg backdrop-blur-md ${i >= 2 ? 'hidden md:block' : ''}`}
           style={{ left: note.x, top: note.y }}
           initial={{ opacity: 0, scale: 0.7, rotate: note.rotate }}
           animate={{
@@ -108,7 +108,7 @@ export function Scene8Finale({ onComplete, onRestart }: { onComplete: () => void
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-script text-white text-glow-pink mb-2"
+            className="text-3xl sm:text-4xl md:text-6xl font-script text-white text-glow-pink mb-2 leading-tight"
           >
             Happy Birthday
           </motion.div>
@@ -118,7 +118,7 @@ export function Scene8Finale({ onComplete, onRestart }: { onComplete: () => void
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-6xl md:text-8xl font-bold font-sans text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 pb-4 text-glow-pink"
+            className="text-4xl sm:text-6xl md:text-8xl font-bold font-sans text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 pb-4 text-glow-pink leading-none"
           >
             DIVYA ❤️
           </motion.div>
@@ -129,9 +129,9 @@ export function Scene8Finale({ onComplete, onRestart }: { onComplete: () => void
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 2 }}
-            className="mt-4 md:mt-5 flex flex-col items-center"
+            className="mt-3 md:mt-5 flex flex-col items-center"
           >
-            <div className="text-xl md:text-2xl text-pink-200/80 font-sans max-w-xl px-4 text-center mb-4 leading-tight">
+            <div className="text-base sm:text-xl md:text-2xl text-pink-200/80 font-sans max-w-xl px-4 text-center mb-3 md:mb-4 leading-tight">
               May your smile always shine brighter<br/>than every star in this universe. 🎆
             </div>
           </motion.div>

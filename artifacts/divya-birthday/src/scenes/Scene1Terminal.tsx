@@ -37,6 +37,8 @@ export function Scene1Terminal({ onComplete, playSound }: { onComplete: () => vo
         clearTimeout(timeout);
       };
     }
+
+    return undefined;
   }, [step, playSound]);
 
   useEffect(() => {
@@ -48,6 +50,8 @@ export function Scene1Terminal({ onComplete, playSound }: { onComplete: () => vo
       }, 1500);
       return () => clearTimeout(t);
     }
+
+    return undefined;
   }, [step, playSound]);
 
   useEffect(() => {
@@ -59,13 +63,15 @@ export function Scene1Terminal({ onComplete, playSound }: { onComplete: () => vo
       }, 3500);
       return () => clearTimeout(t);
     }
+
+    return undefined;
   }, [step, onComplete, playSound]);
 
   const progressBar = "█".repeat(Math.floor(progress / 5)) + "░".repeat(20 - Math.floor(progress / 5));
 
-  return (
-    <motion.div 
-      className={`w-full h-full bg-black text-[#39ff14] font-mono p-8 md:p-16 flex flex-col relative ${glitch ? 'animate-[shake_0.5s_infinite]' : ''}`}
+    return (
+      <motion.div 
+      className={`w-full h-full bg-black text-[#39ff14] font-mono p-4 sm:p-6 md:p-16 flex flex-col gap-3 md:gap-4 relative overflow-y-auto ${glitch ? 'animate-[shake_0.5s_infinite]' : ''}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -73,15 +79,15 @@ export function Scene1Terminal({ onComplete, playSound }: { onComplete: () => vo
       <div className="absolute inset-0 pointer-events-none bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEElEQVQImWNgYGBgYGBgAAABQAAJ6Q20wQAAAABJRU5ErkJggg==')] opacity-10" />
       <div className="absolute inset-0 pointer-events-none animate-[scanline_8s_linear_infinite] bg-gradient-to-b from-transparent via-[rgba(57,255,20,0.1)] to-transparent h-[10vh]" />
       
-      <div className={`whitespace-pre-wrap text-lg md:text-2xl ${glitch ? 'animate-[glitch_0.3s_infinite]' : ''}`}>
+      <div className={`whitespace-pre-wrap text-base sm:text-lg md:text-2xl leading-tight ${glitch ? 'animate-[glitch_0.3s_infinite]' : ''}`}>
         {displayedText}
         {(!isComplete1 && Math.floor(Date.now() / 500) % 2 === 0) ? <span className="animate-pulse">_</span> : ''}
       </div>
 
       {step >= 1 && step < 3 && (
-        <div className="mt-4 text-lg md:text-2xl opacity-70">
+        <div className="mt-2 md:mt-4 text-sm sm:text-base md:text-2xl opacity-70 break-words">
           <div>{fakeNames}</div>
-          <div className="mt-2 text-glow-green">[{progressBar}] {Math.floor(progress)}%</div>
+          <div className="mt-2 text-glow-green text-xs sm:text-sm md:text-base">[{progressBar}] {Math.floor(progress)}%</div>
         </div>
       )}
 
@@ -89,7 +95,7 @@ export function Scene1Terminal({ onComplete, playSound }: { onComplete: () => vo
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="mt-8 text-xl md:text-3xl font-bold text-white text-glow-green"
+          className="mt-4 md:mt-8 text-lg sm:text-xl md:text-3xl font-bold text-white text-glow-green"
         >
           Match Found.
         </motion.div>
@@ -99,13 +105,13 @@ export function Scene1Terminal({ onComplete, playSound }: { onComplete: () => vo
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="mt-12 border-2 border-[#39ff14] p-6 glass-panel"
+          className="mt-6 md:mt-12 border-2 border-[#39ff14] p-4 sm:p-5 md:p-6 glass-panel max-w-full"
         >
-          <div className="text-2xl md:text-4xl mb-4">Name: <span className="text-white text-glow-green">DIVYA</span></div>
-          <div className="text-xl md:text-3xl mb-4">Birthday Status: <span className="text-[#ff69b4] text-glow-pink">TODAY 🎉</span></div>
-          <div className="text-xl md:text-3xl">Importance Level: ∞</div>
+          <div className="text-lg sm:text-xl md:text-4xl mb-3 md:mb-4 break-words">Name: <span className="text-white text-glow-green">DIVYA</span></div>
+          <div className="text-base sm:text-lg md:text-3xl mb-3 md:mb-4 break-words">Birthday Status: <span className="text-[#ff69b4] text-glow-pink">TODAY 🎉</span></div>
+          <div className="text-base sm:text-lg md:text-3xl">Importance Level: ∞</div>
           
-          <div className="mt-12 text-center text-3xl md:text-5xl text-red-500 font-bold text-glow-red animate-pulse">
+          <div className="mt-6 md:mt-12 text-center text-2xl sm:text-3xl md:text-5xl text-red-500 font-bold text-glow-red animate-pulse leading-tight">
             ⚠️ SPECIAL PERSON DETECTED ⚠️
           </div>
         </motion.div>

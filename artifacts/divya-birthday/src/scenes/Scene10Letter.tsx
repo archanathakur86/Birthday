@@ -28,7 +28,7 @@ And know this - should life ever grow demanding, should the days grow crowded an
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,224,160,0.16)_0%,transparent_55%),linear-gradient(135deg,rgba(255,248,230,0.07)_0%,rgba(0,0,0,0)_45%,rgba(0,0,0,0.14)_100%)]" />
       <div className="absolute inset-0 opacity-[0.14]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
 
-      <div className="relative z-10 flex w-full max-w-[980px] flex-col items-center px-4">
+      <div className="relative z-10 flex w-full max-w-[94vw] md:max-w-[980px] flex-col items-center px-3 sm:px-4">
         <motion.div
           className="relative w-full max-h-[88vh] overflow-hidden rounded-[18px] border border-[#7f5f2f]/40 bg-[#f4e3bf] shadow-[0_30px_100px_rgba(0,0,0,0.55)]"
           initial={{ scale: 0.92, rotate: -1.5, y: 20 }}
@@ -38,23 +38,23 @@ And know this - should life ever grow demanding, should the days grow crowded an
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.35)_0%,rgba(255,255,255,0)_62%)] pointer-events-none" />
           <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(125,92,40,0.18) 0.7px, transparent 0.7px)', backgroundSize: '18px 18px' }} />
 
-          <div className="relative grid h-full gap-0 md:grid-cols-[1.15fr_0.85fr]">
-            <div className="relative p-6 md:p-10">
+          <div className="relative grid h-full gap-0 grid-cols-1 md:grid-cols-[1.15fr_0.85fr]">
+            <div className="relative p-5 sm:p-6 md:p-10">
               <div className="mb-6 flex items-center justify-between text-[#7f5f2f]/70">
-                <div className="text-xs md:text-sm uppercase tracking-[0.35em]">An old letter</div>
-                <div className="h-px flex-1 mx-4 bg-[#7f5f2f]/20" />
-                <div className="text-xs md:text-sm uppercase tracking-[0.25em]">kept safe</div>
+                <div className="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.3em] sm:tracking-[0.35em]">An old letter</div>
+                <div className="h-px flex-1 mx-3 sm:mx-4 bg-[#7f5f2f]/20" />
+                <div className="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.22em] sm:tracking-[0.25em]">kept safe</div>
               </div>
 
-              <div className="max-h-[62vh] overflow-y-auto pr-2">
-                <div className="whitespace-pre-wrap text-[1rem] md:text-[1.18rem] leading-8 md:leading-9 text-[#4c3418] font-serif">
+              <div className="max-h-[54vh] sm:max-h-[58vh] md:max-h-[62vh] overflow-y-auto pr-1 sm:pr-2">
+                <div className="whitespace-pre-wrap text-[0.95rem] sm:text-[1rem] md:text-[1.18rem] leading-7 sm:leading-8 md:leading-9 text-[#4c3418] font-serif">
                   {displayedText}
                   {!isComplete && <span className="ml-0.5 animate-pulse">_</span>}
                 </div>
               </div>
             </div>
 
-            <div className="relative flex items-center justify-center border-t border-[#7f5f2f]/20 md:border-t-0 md:border-l">
+            <div className="relative hidden md:flex items-center justify-center border-t border-[#7f5f2f]/20 md:border-t-0 md:border-l">
               <div className="absolute inset-0 bg-[linear-gradient(160deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0)_45%,rgba(125,92,40,0.06)_100%)]" />
               <div className="relative z-10 flex flex-col items-center gap-5 px-6 py-10 text-center">
                 <motion.div

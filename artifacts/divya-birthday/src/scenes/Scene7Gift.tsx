@@ -23,7 +23,7 @@ export function Scene7Gift({ onComplete, playSound }: { onComplete: () => void, 
 
   return (
     <motion.div 
-      className="w-full h-full bg-[#050010] relative flex flex-col items-center justify-center overflow-hidden"
+      className="w-full h-full bg-[#050010] relative flex flex-col items-center justify-center overflow-hidden px-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -33,7 +33,7 @@ export function Scene7Gift({ onComplete, playSound }: { onComplete: () => void, 
       {open && <Confetti />}
 
       <motion.div
-        className="relative z-10 cursor-pointer"
+        className="relative z-10 cursor-pointer flex flex-col items-center justify-center"
         onClick={handleClick}
         animate={
           open 
@@ -46,7 +46,7 @@ export function Scene7Gift({ onComplete, playSound }: { onComplete: () => void, 
         }
         transition={{ duration: open ? 1 : 0.2 }}
       >
-        <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
+        <svg className="w-[min(68vw,200px)] h-[min(68vw,200px)]" viewBox="0 0 200 200" fill="none">
           {/* Box Bottom */}
           <path d="M40 90 L160 90 L150 180 L50 180 Z" fill="#d8b4e2" />
           <path d="M100 90 L160 90 L150 180 L100 180 Z" fill="#c490d1" />
@@ -65,7 +65,7 @@ export function Scene7Gift({ onComplete, playSound }: { onComplete: () => void, 
         
         {!open && (
           <motion.div 
-            className="text-white/60 text-center mt-8 text-xl tracking-widest uppercase font-sans animate-pulse"
+            className="text-white/60 text-center mt-5 sm:mt-8 text-sm sm:text-base md:text-xl tracking-widest uppercase font-sans animate-pulse"
           >
             Click Me
           </motion.div>

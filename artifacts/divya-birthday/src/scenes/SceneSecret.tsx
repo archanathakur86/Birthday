@@ -26,8 +26,8 @@ export function SceneSecret({ playSound, onContinue }: { playSound: (s: any) => 
       animate={{ opacity: 1 }}
     >
       {!open ? (
-        <div className="text-[#39ff14] font-mono p-8 w-full max-w-3xl flex flex-col">
-          <div className="whitespace-pre-wrap text-xl md:text-2xl mb-8">
+        <div className="text-[#39ff14] font-mono p-4 sm:p-6 md:p-8 w-full max-w-3xl flex flex-col">
+          <div className="whitespace-pre-wrap text-base sm:text-xl md:text-2xl mb-6 sm:mb-8">
             {t1}
             {(!c1 && Math.floor(Date.now() / 500) % 2 === 0) ? <span className="animate-pulse">_</span> : ''}
           </div>
@@ -35,13 +35,13 @@ export function SceneSecret({ playSound, onContinue }: { playSound: (s: any) => 
           <AnimatePresence>
             {step >= 1 && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="self-center mt-12 cursor-pointer flex flex-col items-center"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+                className="self-center mt-8 sm:mt-12 cursor-pointer flex flex-col items-center"
                 onClick={handleOpen}
               >
-                <div className="text-6xl text-blue-400 text-glow-cyan mb-4 animate-pulse">📁</div>
-                <div className="text-xl border border-blue-500 text-blue-400 px-4 py-2 hover:bg-blue-500/20">OPEN ME</div>
+                <div className="text-5xl sm:text-6xl text-blue-400 text-glow-cyan mb-4 animate-pulse">📁</div>
+                <div className="text-sm sm:text-xl border border-blue-500 text-blue-400 px-4 py-2 hover:bg-blue-500/20">OPEN ME</div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -83,11 +83,11 @@ export function SceneSecret({ playSound, onContinue }: { playSound: (s: any) => 
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ duration: 2, delay: 1, type: "spring", damping: 20 }}
-            className="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-tr from-pink-500 to-yellow-400 p-1 shadow-[0_0_50px_rgba(255,105,180,0.5)] z-10 flex items-center justify-center"
+            className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-tr from-pink-500 to-yellow-400 p-1 shadow-[0_0_50px_rgba(255,105,180,0.5)] z-10 flex items-center justify-center"
           >
             <div className="w-full h-full rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center overflow-hidden relative">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_100%)]" />
-              <div className="text-4xl md:text-5xl font-script text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-script text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">
                 Divya
               </div>
             </div>
@@ -97,11 +97,11 @@ export function SceneSecret({ playSound, onContinue }: { playSound: (s: any) => 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.8, delay: 2.8 }}
-            className="mt-6 md:mt-8 text-center text-xl md:text-3xl font-sans text-white/90 leading-tight max-w-2xl z-10 px-4 flex flex-col items-center gap-2 md:gap-3"
+            className="mt-6 md:mt-8 text-center text-base sm:text-xl md:text-3xl font-sans text-white/90 leading-tight max-w-2xl z-10 px-4 flex flex-col items-center gap-2 md:gap-3"
           >
             <div>Among billions of possibilities...</div>
             <div className="font-script text-3xl md:text-5xl text-pink-200 leading-tight">
-              only YOU was worth the search.
+              only your presence was worth the search.
             </div>
             <div className="text-2xl md:text-4xl font-bold tracking-widest uppercase leading-tight">
               Happy Birthday. ❤️
@@ -112,11 +112,11 @@ export function SceneSecret({ playSound, onContinue }: { playSound: (s: any) => 
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 3.1, duration: 1.1 }}
-            className="absolute bottom-24 z-50"
+            className="absolute bottom-20 sm:bottom-24 z-50"
           >
             <button
               onClick={onContinue}
-              className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-white backdrop-blur-md transition-all hover:bg-white/20"
+              className="rounded-full border border-white/20 bg-white/10 px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base text-white backdrop-blur-md transition-all hover:bg-white/20"
             >
               Read the letter
             </button>

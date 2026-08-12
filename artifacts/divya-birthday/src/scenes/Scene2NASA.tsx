@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export function Scene2NASA({ onComplete, playSound }: { onComplete: () => void, playSound: (s: any) => void }) {
   const [countdown, setCountdown] = useState(5);
@@ -16,6 +16,8 @@ export function Scene2NASA({ onComplete, playSound }: { onComplete: () => void, 
       playSound('launch');
       setTimeout(() => setLaunched(true), 1500);
     }
+
+    return undefined;
   }, [countdown, ignited, playSound]);
 
   useEffect(() => {
@@ -25,11 +27,13 @@ export function Scene2NASA({ onComplete, playSound }: { onComplete: () => void, 
       }, 2000);
       return () => clearTimeout(t);
     }
+
+    return undefined;
   }, [launched, onComplete]);
 
   return (
     <motion.div 
-      className="w-full h-full bg-[#0a0e2e] flex flex-col items-center justify-center p-4 relative overflow-hidden"
+      className="w-full h-full bg-[#0a0e2e] flex flex-col items-center justify-center p-3 sm:p-4 relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -63,10 +67,10 @@ export function Scene2NASA({ onComplete, playSound }: { onComplete: () => void, 
           initial={{ scale: 1.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.5, opacity: 0 }}
-          className="text-8xl md:text-[15rem] font-bold text-white mb-12 text-glow-cyan z-10 font-mono"
-        >
-          {countdown > 0 ? countdown : "IGNITION"}
-        </motion.div>
+        className="text-6xl sm:text-8xl md:text-[15rem] font-bold text-white mb-6 md:mb-12 text-glow-cyan z-10 font-mono leading-none"
+      >
+        {countdown > 0 ? countdown : "IGNITION"}
+      </motion.div>
       )}
 
       {/* Rocket Container */}
@@ -75,7 +79,7 @@ export function Scene2NASA({ onComplete, playSound }: { onComplete: () => void, 
         animate={launched ? { y: -1000, scale: 0.8 } : { y: 0 }}
         transition={launched ? { duration: 1.5, ease: "easeIn" } : undefined}
       >
-        <svg width="120" height="200" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="w-20 h-32 sm:w-24 sm:h-40 md:w-[120px] md:h-[200px]" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M60 10 L100 80 L100 160 L60 180 L20 160 L20 80 Z" fill="#e2e8f0" />
           <path d="M60 10 L100 80 L60 80 Z" fill="#cbd5e1" />
           <path d="M20 160 L0 190 L30 170 Z" fill="#94a3b8" />
@@ -120,6 +124,3 @@ export function Scene2NASA({ onComplete, playSound }: { onComplete: () => void, 
     </motion.div>
   );
 }
-
-// Ensure AnimatePresence is imported
-import { AnimatePresence } from 'framer-motion';

@@ -77,7 +77,7 @@ export function Scene4Magical({ onComplete, playSound }: { onComplete: () => voi
       {warmNotes.map((note, i) => (
         <motion.div
           key={note.text}
-          className="absolute z-10 max-w-[190px] rounded-full border border-white/20 bg-black/20 px-4 py-2 text-white/90 shadow-lg backdrop-blur-md"
+          className={`absolute z-10 max-w-[150px] md:max-w-[190px] rounded-full border border-white/20 bg-black/20 px-3 md:px-4 py-2 text-white/90 shadow-lg backdrop-blur-md ${i >= 2 ? 'hidden md:block' : ''}`}
           style={{ left: note.x, top: note.y }}
           initial={{ opacity: 0, scale: 0.75, rotate: note.rotate }}
           animate={{

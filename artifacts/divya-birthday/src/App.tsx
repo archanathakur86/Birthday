@@ -52,11 +52,11 @@ function App() {
       )}
 
       {started && scene >= 1 && scene <= 10 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[9999] flex gap-2">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[9999] flex gap-1.5 md:gap-2">
           {Array.from({ length: 10 }).map((_, i) => (
             <div 
               key={i} 
-              className={`w-2 h-2 rounded-full transition-all duration-500 ${
+              className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all duration-500 ${
                 i + 1 === scene ? 'bg-pink-500 scale-125 box-glow-pink' : 
                 i + 1 < scene ? 'bg-pink-500/50' : 'bg-white/20'
               }`}
