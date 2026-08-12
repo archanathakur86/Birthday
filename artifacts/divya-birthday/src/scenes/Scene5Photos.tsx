@@ -1,24 +1,55 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Scene5Photos({ onComplete, playSound }: { onComplete: () => void, playSound: (s: any) => void }) {
   const [activeId, setActiveId] = useState<number | null>(null);
   const [clickedCount, setClickedCount] = useState(0);
+  
+  // close on Escape key
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveId(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
-  const photos = Array.from({ length: 8 }).map((_, i) => ({
-    id: i,
-    rotate: (Math.random() - 0.5) * 30,
-    x: (Math.random() - 0.5) * 60 + 'vw',
-    y: (Math.random() - 0.5) * 60 + 'vh',
-    gradient: `linear-gradient(${Math.random() * 360}deg, hsl(${Math.random() * 360}, 80%, 60%), hsl(${Math.random() * 360}, 80%, 40%))`
-  }));
+  const imageUrls = [
+    '/IMG-20240717-WA0068.jpg',
+    '/Screenshot_20260812_152305.webp',
+    '/Screenshot_20260812_152331.webp',
+    '/Screenshot_20260812_152357.webp',
+    '/Screenshot_20260812_152410.webp',
+    '/Screenshot_20260812_152547.webp',
+  ];
+
+  // Predefined spread positions (percentages) to avoid clustering
+  const spreadPositions = [
+    { x: '8%', y: '12%' },
+    { x: '75%', y: '6%' },
+    { x: '12%', y: '38%' },
+    { x: '68%', y: '34%' },
+    { x: '6%', y: '68%' },
+    { x: '74%', y: '66%' }
+  ];
+
+  const photos = Array.from({ length: imageUrls.length }).map((_, i) => {
+    const pos = spreadPositions[i % spreadPositions.length];
+    return {
+      id: i,
+      image: imageUrls[i] || imageUrls[0],
+      rotate: (Math.random() - 0.5) * 14,
+      x: `calc(${pos.x} + ${ (Math.random()-0.5) * 6 }%)`,
+      y: `calc(${pos.y} + ${ (Math.random()-0.5) * 6 }%)`
+    };
+  });
 
   const handlePhotoClick = (id: number) => {
     if (activeId === id) {
       setActiveId(null);
     } else {
       setActiveId(id);
-      if (clickedCount < 8) setClickedCount(c => c + 1);
+      if (clickedCount < imageUrls.length) setClickedCount(c => c + 1);
       playSound('sparkle');
     }
   };
@@ -36,55 +67,39 @@ export function Scene5Photos({ onComplete, playSound }: { onComplete: () => void
         Click any memory to relive it ✨
       </div>
 
-      {photos.map((photo, i) => {
-        const isActive = activeId === photo.id;
-        return (
-          <motion.div
-            key={photo.id}
-            layout
-            onClick={() => handlePhotoClick(photo.id)}
-            className={`absolute bg-white p-2 md:p-4 pb-8 md:pb-12 shadow-xl cursor-pointer
-              ${isActive ? 'z-50' : 'z-10 hover:z-40'}`}
-            initial={{ 
-              x: photo.x, 
-              y: '-100vh', 
-              rotate: photo.rotate 
-            }}
-            animate={isActive ? {
-              x: 0,
-              y: 0,
-              rotate: 0,
-              scale: window.innerWidth < 768 ? 1.5 : 2.5,
-              zIndex: 50,
-            } : {
-              x: photo.x,
-              y: photo.y,
-              rotate: photo.rotate,
-              scale: 1,
-              zIndex: 10,
-            }}
-            transition={{
-              type: "spring",
-              damping: 20,
-              stiffness: 100,
-              delay: isActive ? 0 : i * 0.1
-            }}
-            style={{ width: '150px', height: '180px' }}
-          >
-            <div className="w-full h-full" style={{ background: photo.gradient }} />
-            <div className="text-center text-black mt-2 font-script text-lg">Memory {i + 1}</div>
-            
-            {isActive && (
-              <motion.div 
-                className="absolute inset-0 border-[4px] border-pink-400 rounded pointer-events-none"
-                initial={{ opacity: 0, scale: 1 }}
-                animate={{ opacity: 0, scale: 1.2 }}
-                transition={{ duration: 1, repeat: Infinity }}
-              />
-            )}
-          </motion.div>
-        );
-      })}
+      <div className="relative w-full h-full">
+        {photos.map((photo, i) => {
+          const isActive = activeId === photo.id;
+          return (
+            <motion.div
+              key={photo.id}
+              onClick={() => handlePhotoClick(photo.id)}
+              className="absolute shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.05, type: 'spring' }}
+              style={{
+                left: photo.x,
+                top: photo.y,
+                width: 160,
+                height: 190,
+                transform: `rotate(${photo.rotate}deg)`,
+                zIndex: 10,
+              }}
+            >
+              <div className="w-full h-full flex items-center justify-center rounded-sm overflow-hidden">
+                <img 
+                  src={photo.image} 
+                  alt={`Memory ${i + 1}`} 
+                  className="w-full h-full object-contain"
+                  style={{ display: 'block' }}
+                />
+              </div>
+              <div className="text-center text-white/60 text-xs mt-1 font-script">Memory {i + 1}</div>
+            </motion.div>
+          );
+        })}
+      </div>
 
       <AnimatePresence>
         {activeId !== null && (
@@ -92,9 +107,25 @@ export function Scene5Photos({ onComplete, playSound }: { onComplete: () => void
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/80 z-40"
+            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center"
             onClick={() => setActiveId(null)}
-          />
+            style={{ pointerEvents: 'auto' }}
+          >
+            <motion.div
+              onClick={(e) => e.stopPropagation()}
+              className="rounded-lg shadow-2xl"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              style={{ width: '70vw', height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', padding: 0 }}
+            >
+              <img
+                src={photos[activeId]?.image}
+                alt={`Memory ${activeId + 1}`}
+                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }}
+              />
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 

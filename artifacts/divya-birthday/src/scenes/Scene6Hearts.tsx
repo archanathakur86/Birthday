@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export function Scene6Hearts({ onComplete, playSound }: { onComplete: () => void, playSound: (s: any) => void }) {
   const [found, setFound] = useState<number[]>([]);
-  const totalHearts = 10;
+  const totalHearts = 5;
 
   const hearts = useMemo(() => {
     return Array.from({ length: totalHearts }).map((_, i) => ({
@@ -36,7 +36,7 @@ export function Scene6Hearts({ onComplete, playSound }: { onComplete: () => void
       <div className="absolute top-8 left-0 right-0 flex justify-center z-10 pointer-events-none">
         <div className="bg-black/50 border border-pink-500/30 px-6 py-3 rounded-full backdrop-blur-md">
           <div className="text-white text-xl md:text-2xl font-sans">
-            {found.length < totalHearts ? "Find 10 Hidden Hearts 💕" : "Gift Unlocked! 🎁"}
+            {found.length < totalHearts ? "Click all the Hearts 💕" : "Gift Unlocked! 🎁"}
           </div>
           <div className="text-pink-400 text-center font-bold mt-1 text-lg">
             ❤️ {found.length} / {totalHearts}
